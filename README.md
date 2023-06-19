@@ -1,5 +1,5 @@
 # IGNITE SHOP
-Projeto de um Timer desenvolvido durante o módulo de especilização em reactjs da Rocketseat.
+Projeto desenvolvido durante o módulo de especilização em reactjs da Rocketseat.
 
 Esta aplicação é desenvolvida utilizando typescript, API do STRIPE, NextJS, keen-slider, axios e etc.
 
