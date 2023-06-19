@@ -1,8 +1,3 @@
-<div align="center">
-<img width="800" src="https://i.imgur.com/td0sKcY.png" />
-</div>
-
-
 # IGNITE SHOP
 Projeto de um Timer desenvolvido durante o módulo de especilização em reactjs da Rocketseat.
 
