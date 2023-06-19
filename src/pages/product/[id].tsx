@@ -5,6 +5,8 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import Stripe from "stripe"
 import { CircularProgress } from '@mui/material'
+import axios from "axios"
+import { useState } from "react"
 
 interface ProductProps {
   product: {
@@ -18,18 +20,37 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
   const { isFallback } = useRouter()
 
   if (isFallback) {
     return (
-        <Loading>
-          <CircularProgress color="success" size={50}/>
-        </Loading>
+      <Loading>
+        <CircularProgress color="success" size={50} />
+      </Loading>
     )
   }
 
-  function handleBuyProduct(){
-    console.log(product.defaultPriceId)
+  async function handleBuyProduct() {
+    try {
+      setIsCreatingCheckoutSession(true)
+
+      // Fazendo a chamada para o checkout utilizando o axios
+      const response = await axios.post('/api/checkout', {
+        // Parâmetros a serem enviados
+        priceId: product.defaultPriceId
+      })
+
+      const { checkoutUrl } = response.data;
+
+      // Enviando o usuário para uma página externa
+      window.location.href = checkoutUrl
+
+    } catch (err) {
+
+      setIsCreatingCheckoutSession(false)
+      alert('Falha ao redirecionar ao checkout!')
+    }
   }
 
   return (
@@ -45,7 +66,7 @@ export default function Product({ product }: ProductProps) {
         <p>{product.description}</p>
 
 
-        <button onClick={handleBuyProduct}>
+        <button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>
           Comprar agora
         </button>
       </ProductDetails>
