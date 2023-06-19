@@ -67,3 +67,14 @@ export const ProductDetails = styled('div', {
     }
   }
 })
+
+export const Loading = styled('div', {
+  maxWidth: 1180,
+  margin: '0 auto',
+
+  height: 656,
+
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+})

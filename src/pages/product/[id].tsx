@@ -1,8 +1,10 @@
 import { stripe } from "@/lib/stripe"
-import { ImageContainer, ProductContainer, ProductDetails } from "@/styles/pages/product"
+import { ImageContainer, Loading, ProductContainer, ProductDetails } from "@/styles/pages/product"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import Stripe from "stripe"
+import { CircularProgress } from '@mui/material'
 
 interface ProductProps {
   product: {
@@ -15,6 +17,16 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
+  const { isFallback } = useRouter()
+
+  if (isFallback) {
+    return (
+        <Loading>
+          <CircularProgress color="success" size={50}/>
+        </Loading>
+    )
+  }
+
   return (
     <ProductContainer>
       <ImageContainer>
@@ -40,10 +52,11 @@ export default function Product({ product }: ProductProps) {
 // Fazendo a geração das páginas estáticas durante a build do projeto
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
+    // Tudo que estiver dentro de paths vai ser gerado durante o processo de build
     paths: [
       { params: { id: 'prod_O5YuClun0Kf64y' } }
     ],
-    fallback: false
+    fallback: true
   }
 }
 
