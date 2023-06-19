@@ -13,6 +13,7 @@ interface ProductProps {
     imageUrl: string;
     price: string; // string pq estamos formatando
     description: string;
+    defaultPriceId: string;
   }
 }
 
@@ -25,6 +26,10 @@ export default function Product({ product }: ProductProps) {
           <CircularProgress color="success" size={50}/>
         </Loading>
     )
+  }
+
+  function handleBuyProduct(){
+    console.log(product.defaultPriceId)
   }
 
   return (
@@ -40,7 +45,7 @@ export default function Product({ product }: ProductProps) {
         <p>{product.description}</p>
 
 
-        <button>
+        <button onClick={handleBuyProduct}>
           Comprar agora
         </button>
       </ProductDetails>
@@ -82,7 +87,8 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({ para
           style: 'currency',
           currency: 'BRL'
         }).format(price.unit_amount! / 100), // O preço vem em centavos
-        description: product.description
+        description: product.description,
+        defaultPriceId: price.id
       }
     },
     revalidate: 60 * 60 * 1, // 1 hour
