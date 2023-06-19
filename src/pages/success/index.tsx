@@ -13,14 +13,14 @@ interface SuccessProps {
   }
 }
 
-export default function Success({customerName, product}: SuccessProps) {
+export default function Success({ customerName, product }: SuccessProps) {
 
   return (
     <SuccessContainer>
       <h1>Compra efeturada!</h1>
 
       <ImageContainer>
-        <Image src={product.imageUrl} width={120} height={110} alt=""/>
+        <Image src={product.imageUrl} width={120} height={110} alt="" />
       </ImageContainer>
 
       <p>
@@ -37,6 +37,18 @@ export default function Success({customerName, product}: SuccessProps) {
 
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+
+
+  if (!query.session_id) {
+    // Fazendo um redirect caso o usuário tente entrar um uma rota de sucesso com um query inválido
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      }
+    }
+  }
+
   // session_id vem da rota
   const sessionId = String(query.session_id)
 
